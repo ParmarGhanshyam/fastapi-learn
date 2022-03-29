@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import List
 
 
 class UserData(BaseModel):
@@ -7,10 +8,19 @@ class UserData(BaseModel):
     password: str
 
 
+class BlogBase(BaseModel):
+    title: str
+    body: str
+
+    class Config():
+        orm_mode = True
+
+
 # Using Response Model
 class ShowUser(BaseModel):
     name: str
     email: str
+    blogs: List[BlogBase] = []
 
     class Config():
         orm_mode = True
