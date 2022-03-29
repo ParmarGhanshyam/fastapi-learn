@@ -1,13 +1,17 @@
 from fastapi import APIRouter, status, Depends, HTTPException
 from sqlalchemy.orm import Session
-from blog.models import Blog,User
-from blog.schemas import UserData,ShowUser
+from blog.models import Blog, User
+from blog.schemas import UserData, ShowUser
 from blog.dependency import get_db
+from blog.hashing import Hash
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/user",
+    tags=['user']
+)
 
 
-@router.post('/user_create', status_code=status.HTTP_201_CREATED, response_model=ShowUser, tags=['user'])
+@router.post('/', status_code=status.HTTP_201_CREATED, response_model=ShowUser)
 def user_create(request: UserData, db: Session = Depends(get_db)):
     user_create = User(name=request.name, email=request.email, password=Hash.bcrypt(request.password))
     db.add(user_create)
@@ -16,7 +20,7 @@ def user_create(request: UserData, db: Session = Depends(get_db)):
     return user_create
 
 
-@router.get('/user_create/{id}', status_code=status.HTTP_200_OK, response_model=ShowUser, tags=['user'])
+@router.get('/{id}', status_code=status.HTTP_200_OK, response_model=ShowUser)
 def get_user(id, db: Session = Depends(get_db)):
     user_data = db.query(User).filter(User.id == id).first()
     if not user_data:

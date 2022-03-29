@@ -1,4 +1,4 @@
-from sqlalchemy import Column,Integer, String
+from sqlalchemy import Column, Integer, String
 from blog.database import Base
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
@@ -13,7 +13,6 @@ class Blog(Base):
     creator = relationship("User", back_populates="blogs", lazy='joined')
 
 
-
 class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True, index=True)
@@ -21,6 +20,3 @@ class User(Base):
     email = Column(String)
     password = Column(String)
     blogs = relationship("Blog", back_populates="creator")
-
-
-

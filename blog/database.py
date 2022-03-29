@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 
 SQLALCHEMY_DATABASR_URL = "sqlite:///./blog.db"
 
-engine = create_engine(SQLALCHEMY_DATABASR_URL, connect_args = {"check_same_thread":False})
+engine = create_engine(SQLALCHEMY_DATABASR_URL, connect_args={"check_same_thread": False})
 
 Sessionlocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 
